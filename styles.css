@@ -30,3 +30,53 @@
 .site-header{--header-control-height:44px}.site-header .nav-download,.site-header .language-switch{height:var(--header-control-height)}.site-header .nav-download{display:inline-flex;align-items:center;justify-content:center;padding:0 19px}.site-header .language-switch{padding:3px}.site-header .language-switch a{height:100%;display:inline-flex;align-items:center;justify-content:center;padding:0 10px}.feature-language{font-weight:500;font-size:30px;padding-top:6px}
 @media(max-width:760px){.site-header{--header-control-height:38px}.site-header .nav-download{padding:0 12px}.site-header .language-switch a{padding:0 8px}.feature-language{font-size:27px;padding-top:4px}}
 @media(max-width:430px){.site-header .language-switch a{padding:0 6px}}
+
+/* Let the phone viewport, rather than intrinsic image/text widths, size the page. */
+.hero{grid-template-columns:minmax(0,1.14fr) minmax(0,1fr)}
+.about{grid-template-columns:minmax(0,.95fr) minmax(0,1.35fr)}
+.info-section{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hero>*,.about>*,.info-section>*,.player-shell,.puzzle-board,.puzzle-tabs,.answer-row,.download-copy,.challenge-strip>div{min-width:0}
+.puzzle-board img{min-width:0;max-width:100%}
+.answer-row{display:grid;grid-template-columns:minmax(0,1fr) auto}
+.answer-row input{width:100%}
+.hero-description,.challenge-strip p,.feature-grid p,.info-section p,.hint-panel p,.player-feedback,.rules summary{overflow-wrap:anywhere}
+@media(max-width:1000px){
+ .hero{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ .hero,.about,.info-section{grid-template-columns:minmax(0,1fr)}
+ .player-shell{width:100%;max-width:510px}
+ .player-top,.player-bottom{flex-wrap:wrap}
+ .puzzle-tab{min-height:44px}
+ .puzzle-tab span,.hint-button svg{flex-shrink:0}
+ .answer-row input,.answer-row .button{min-height:49px;height:auto}
+ .answer-row .button{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+ .hint-button,.text-button{min-height:44px}
+ .player-bottom .text-button{margin-left:auto;text-align:right}
+ .feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .phone-preview{max-width:100%}
+}
+@media(max-width:380px){
+ .wrap{width:calc(100% - 28px)}
+ .player-shell{padding:clamp(10px,3.4vw,13px)}
+ .puzzle-board{height:clamp(230px,calc(100vw - 60px),285px);padding:34px 10px 10px}
+ .puzzle-tabs{gap:5px}
+ .puzzle-tab{gap:4px;overflow-wrap:anywhere}
+ .board-tag{left:12px;right:12px;font-size:11px;letter-spacing:.08em}
+ .answer-row{gap:7px}
+ .answer-row input{padding-inline:10px}
+ .answer-row .button{padding-inline:10px;font-size:14px}
+ .player-top{gap:7px}
+ .tiny-label{font-size:11px;letter-spacing:.1em}
+ .download-section{padding-inline:20px}
+ .feature-grid{gap:24px 16px}
+}
+@media(max-width:320px){
+ .wrap{width:calc(100% - 24px)}
+ .hero-actions{gap:16px}
+ .hero-actions .button{padding-inline:18px}
+ .download-copy h2{font-size:32px}
+ .feature-grid{grid-template-columns:minmax(0,1fr)}
+ .site-header>.brand{font-size:14px}
+ .site-header .brand-mark{width:30px;height:30px}
+}
