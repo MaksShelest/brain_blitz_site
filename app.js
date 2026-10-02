@@ -7,8 +7,8 @@
  let current=0;
  let language=document.documentElement.lang==='en'?'en':'ru';
  const messages={
-  ru:{answer:'Ваш ответ',next:'Далее',check:'Проверить',solved:'Решено',correct:'Верно! Ты нашёл ответ.',revealed:'Решение открыто. Попробуй следующую задачу.',ready:'Есть идея? Проверь её.',first:'К первой задаче',nextPuzzle:'Следующая задача',empty:'Введи ответ, чтобы проверить идею.',wrong:'Пока не сходится. Попробуй посмотреть иначе.',typing:'Проверь свою идею.'},
-  en:{answer:'Your answer',next:'Next',check:'Check',solved:'Solved',correct:'Correct! You found the answer.',revealed:'Solution revealed. Try the next puzzle.',ready:'Have an idea? Try it.',first:'Back to the first',nextPuzzle:'Next puzzle',empty:'Enter an answer to test your idea.',wrong:'Not quite. Try a different approach.',typing:'Test your idea.'}
+  ru:{completed:'решена',answer:'Ваш ответ',next:'Далее',check:'Проверить',solved:'Решено',correct:'Верно! Ты нашёл ответ.',revealed:'Решение открыто. Попробуй следующую задачу.',ready:'Есть идея? Проверь её.',first:'К первой задаче',nextPuzzle:'Следующая задача',empty:'Введи ответ, чтобы проверить идею.',wrong:'Пока не сходится. Попробуй посмотреть иначе.',typing:'Проверь свою идею.'},
+  en:{completed:'solved',answer:'Your answer',next:'Next',check:'Check',solved:'Solved',correct:'Correct! You found the answer.',revealed:'Solution revealed. Try the next puzzle.',ready:'Have an idea? Try it.',first:'Back to the first',nextPuzzle:'Next puzzle',empty:'Enter an answer to test your idea.',wrong:'Not quite. Try a different approach.',typing:'Test your idea.'}
  };
  const t=key=>messages[language][key];
  const localized=index=>language==='en'?{...puzzles[index],...window.BRAIN_PUZZLES_EN[index]}:puzzles[index];
@@ -45,7 +45,16 @@
   images.forEach((img,index)=>{img.hidden=index!==current;});$('puzzle-tag').textContent=p.tag;
   $('answer').value=s.value;$('answer').inputMode='decimal';$('answer').placeholder=t('answer');$('answer').disabled=s.solved;$('check-button').disabled=false;$('check-button').textContent=s.solved?t('next'):t('check');
   $('solved-count').textContent=t('solved')+' '+states.filter(s=>s.solved).length+' / '+puzzles.length;
-  tabs.forEach((t,i)=>{t.classList.toggle('active',i===current);t.classList.toggle('solved',states[i].solved);t.setAttribute('aria-pressed',String(i===current));});
+  tabs.forEach((tab,i)=>{
+   const solved=states[i].solved;
+   const label=tab.querySelector('.puzzle-tab-label');
+   const content=document.createElement('template');content.innerHTML=tab.getAttribute('data-'+language);
+   const name=content.content.querySelector('.puzzle-tab-label').textContent;
+   label.textContent=solved?'✓':name;
+   tab.classList.toggle('active',i===current);tab.classList.toggle('solved',solved);
+   tab.setAttribute('aria-pressed',String(i===current));
+   tab.setAttribute('aria-label',(i+1)+'. '+name+(solved?' — '+t('completed'):''));
+  });
   $('hint-panel').hidden=!(s.hint||s.solved||s.revealed);$('hint-text').textContent=s.solved||s.revealed?p.solution:p.hint;$('reveal-button').hidden=s.solved||s.revealed;
   $('finish-panel').hidden=!states.every(s=>s.solved);
   feedback(s.solved?t('correct'):s.revealed?t('revealed'):t('ready'),s.solved?'success':'');
